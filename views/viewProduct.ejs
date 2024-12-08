@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-commerce</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <!-- navbar -->
+    <%- include('partials/navBar') -%>
+    <!-- -->
+    <form action="categorySearch" method="get">
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <select id="category" name="category" class="form-control">
+          <option value="" disabled selected>Select a category</option>
+          <option value="electronic">Electronic</option>
+          <option value="food">Food</option>
+          <option value="softdrinks">Softdrinks</option>
+          <option value="clothes">Clothes</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <br />
+    <br />
+    <% if (userProductInfo.length === 0) { %>
+    <h5>Nothing to display. Please add products.</h5>
+    <% } %>
+
+    <!-- message for product added to cart -->
+    <p class="text-warning bg-dark">
+      <% if (typeof addToCartMessage !== 'undefined') { %> <%= addToCartMessage
+      %> <% } %>
+    </p>
+    <!-- loop -->
+
+    <% userProductInfo.forEach((product) => { %>
+    <div class="card mb-3 d-flex" style="max-width: 540px">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+          <img
+            src="image/<%= product.image %>"
+            class="card-img"
+            alt="product image"
+            height="200px"
+            width="200px"
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title"><%= product.name %></h5>
+            <p class="card-text">
+              <strong>Price:</strong> <%= product.price %>
+            </p>
+            <p class="card-text">
+              <strong>Description:</strong> <%= product.description %>
+            </p>
+            <p class="card-text">
+              <strong>Category:</strong> <%= product.category %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="d-flex justify-content-between">
+          <form
+            action="/getUpdateProduct?productId=<%= product._id %>"
+            method="post"
+          >
+            <button type="submit" class="btn btn-primary">Update</button>
+          </form>
+          <form action="/addToCart?productId=<%= product._id %>" method="post">
+            <button type="submit" class="btn btn-success">Add To Cart</button>
+          </form>
+          <form
+            action="/deleteProduct?productId=<%= product._id %>"
+            method="post"
+          >
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <% }); %>
+    <nav aria-label="...">
+      <ul class="pagination pagination-lg">
+        <% for (let i = 1; i <= totalPages; i++) { %>
+        <li class="page-item">
+          <a class="page-link" href="viewProduct?pageNo=<%= i %>"><%= i %></a>
+        </li>
+        <% } %>
+      </ul>
+    </nav>
+
+    <!-- footer -->
+    <%- include('partials/footer.ejs') -%>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-commerce</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <!-- navbar -->
+    <%- include('partials/navBar') -%>
+    <!-- -->
+    <h1 class="text-center">
+      <span class="nav-link fw-bold">Order History</span>
+    </h1>  
+    <% if (userProductInfo.length === 0) { %>
+    <h5>Nothing to display. Please purchase.</h5>
+    <% } %>
+    <p class="text-warning bg-dark">
+      <% if (typeof message !== 'undefined') { %> <%= message %> <% } %>
+    </p>
+    <!-- loop -->
+    <% userProductInfo.forEach((product) => { %>
+    <div class="card mb-3 d-flex" style="max-width: 540px">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+          <img
+            src="image/<%= product.image %>"
+            class="card-img"
+            alt="product image"
+            height="200px"
+            width="200px"
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title"><%= product.name %></h5>
+            <p class="card-text">
+              <strong>OrderId:</strong> <%= product.orderId %>
+            </p>
+            <p class="card-text">
+              <strong>Price:</strong> <%= product.price %>
+            </p>
+            <p class="card-text">
+                <strong>Purchased Time:</strong> <%= product.time %>
+            </p>
+            <p class="card-text">
+              <strong>Status:</strong> <%= product.status %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }); %>
+    <div class="text-center">
+        <a class="nav-link fw-bold" href="/deleteUserOrder">Click To Clear History</a>
+    </div>
+    <!-- footer -->
+    <%- include('partials/footer.ejs') -%>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
